@@ -1,4 +1,5 @@
 package com.example.authentication;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -26,8 +27,20 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-      throws IOException, ServletException {
+            throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
         try {
+            if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // ✅ Skip if already authenticated (by API key filter)
+            if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             Authentication authentication = this.authenticationService.getAuthentication((HttpServletRequest) request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
