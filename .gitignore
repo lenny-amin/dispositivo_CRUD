@@ -1,0 +1,16 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+# IDEA
+.idea/
+*.iml
+# Mac
+.DS_Store
+# Logs
+logs/
+*.log
+# OS files
+Thumbs.db
+# Others
+*.class
