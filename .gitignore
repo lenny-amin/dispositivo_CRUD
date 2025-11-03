@@ -14,3 +14,5 @@ logs/
 Thumbs.db
 # Others
 *.class
+
+.env
