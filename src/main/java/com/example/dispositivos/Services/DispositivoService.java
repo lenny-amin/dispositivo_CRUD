@@ -21,6 +21,10 @@ public class DispositivoService {
         return dispositivoRepository.findAll();
     }
 
+    public List<Dispositivo> findAlerted() {
+        return dispositivoRepository.findByState("alert");
+    }
+
     public Optional<Dispositivo> findById(Long id) {
         return dispositivoRepository.findById(id);
     }

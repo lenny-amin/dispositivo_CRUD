@@ -12,7 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/dispositivos")
-@CrossOrigin(origins = "${app.cors.allowed-origins}", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "${app.cors.allowed-origins}", methods = { RequestMethod.GET, RequestMethod.POST,
+        RequestMethod.PUT, RequestMethod.DELETE })
 public class DispositivoController {
 
     private final DispositivoService dispositivoService;
@@ -24,6 +25,11 @@ public class DispositivoController {
     @GetMapping
     public List<Dispositivo> getAll() {
         return dispositivoService.findAll();
+    }
+
+    @GetMapping("/state/alert")
+    public List<Dispositivo> getAlert() {
+        return dispositivoService.findAlerted();
     }
 
     @GetMapping("/{id}")
@@ -55,11 +61,10 @@ public class DispositivoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return dispositivoService.findById(id)
-            .map(dispositivo -> {
-                dispositivoService.delete(id);
-                return ResponseEntity.noContent().<Void>build();
-            })
-            .orElse(ResponseEntity.notFound().build());
+                .map(dispositivo -> {
+                    dispositivoService.delete(id);
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
-
